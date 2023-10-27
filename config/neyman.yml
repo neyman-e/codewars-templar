@@ -9,7 +9,6 @@ files:
               def method_name(parameter1, parameter2)
 
               end
-
   tests:
     filename: "1_mine_spec.rb"
     rel_path: "spec/"
