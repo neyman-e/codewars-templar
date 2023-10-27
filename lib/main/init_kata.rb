@@ -29,6 +29,14 @@ def define_level
   end
 end
 
+# Creates the kata level folder '*kyu' if it doesn't exist and print a message
+def kata_level_folder(level_folder_path)
+  unless Dir.exist?(level_folder_path)
+    Dir.mkdir(level_folder_path)
+    puts "Created new level folder #{level_folder_path}"
+  end
+end
+
 # It counts the katas done for the specific level,
 # getting as argument the folder path for that specific level
 #
@@ -61,23 +69,17 @@ end
 
 # Creates the kata's folder structure
 #
-# 1- Creates the kata level folder '*kyu' if it doesn't exist and print a message
-# 2- Defines the destination folder path, depending on how many katas have been done at a particular level
+# 1- Defines the destination folder path, depending on how many katas have been done at a particular level
 #   (maximum is 99 katas for each level)
-# 3- Checks if the folder exists already (the kata could have already been attempted), aborting the script
+# 2- Checks if the folder exists already (the kata could have already been attempted), aborting the script
 #   with a message
-# 4- If the folder doesn't exist, it creates all folders listed in the config file
-# 5- Finally it returns the folder path
+# 3- If the folder doesn't exist, it creates all folders listed in the config file
+# 4- Finally it returns the folder path
 def create_folders(level_folder_path, number, kata_name)
-  unless Dir.exist?(level_folder_path)                                                                              # 1
-    p level_folder_path
-    Dir.mkdir(level_folder_path)
-    puts "Created new level folder #{level_folder_path}"
-  end
-  folder_path = "#{level_folder_path}#{number > 9 ? number : "0#{number}"}-#{kata_name}"                            # 2
-  if Dir.entries(level_folder_path).any? { |entry| entry.include?(kata_name) }                                      # 3
-    abort_script("This kata already exists in your folders")
-  else                                                                                                              # 4
+  folder_path = "#{level_folder_path}#{number > 9 ? number : "0#{number}"}-#{kata_name}"                            # 1
+  if Dir.entries(level_folder_path).any? { |entry| entry.include?(kata_name) }                                      # 2
+  abort_script("This kata already exists in your folders")
+  else                                                                                                              # 3
     folders = []
     CONFIG['files'].each_value { |value| folders << value['rel_path'] unless folders.include?value['rel_path'] }
     folders.sort.each do |folder|
@@ -85,7 +87,7 @@ def create_folders(level_folder_path, number, kata_name)
       puts "Created folder #{File.join(folder_path, folder)}"
     end
   end
-  folder_path                                                                                                       # 5
+  folder_path                                                                                                       # 4
 end
 
 # Creates all files in the corresponding folder, writing in it the content defined in the YML config file.
@@ -102,13 +104,14 @@ end
 level = define_level
 level_folder_path = "#{home_path}#{CONFIG['settings']['path']}/#{level}kyu/"
 
+kata_level_folder(level_folder_path)
+
 files_count = count_done_katas(level_folder_path)
 
 kata_name = get_name(level_folder_path)
-
 folder_path = create_folders(level_folder_path, files_count + 1, kata_name)
 
 create_files(folder_path)
 
 vs_code_open = %x{code #{home_path}#{CONFIG['settings']['path']}}
-puts "VS Code is now open}" if vs_code_open
+puts "VS Code is now open" if vs_code_open
