@@ -59,11 +59,7 @@ def get_name(level_folder_path)
     print "Kata name: "
   input_name = gets.chomp.downcase.split
   clean_name = input_name.each { |word| word.gsub!(/[^a-z0-9\-\_]/, '') }.join('-')
-  if clean_name.length < max_name_length
-    clean_name
-  else
-    abort_script("Terminating... Wrong input")
-  end
+  clean_name.length < max_name_length ? clean_name : abort_script("Terminating... Wrong input")
 end
 
 
@@ -103,15 +99,10 @@ end
 
 level = define_level
 level_folder_path = "#{home_path}#{CONFIG['settings']['path']}/#{level}kyu/"
-
 kata_level_folder(level_folder_path)
-
 files_count = count_done_katas(level_folder_path)
-
 kata_name = get_name(level_folder_path)
 folder_path = create_folders(level_folder_path, files_count + 1, kata_name)
-
 create_files(folder_path)
-
 vs_code_open = %x{code #{home_path}#{CONFIG['settings']['path']}}
 puts "VS Code is now open" if vs_code_open
