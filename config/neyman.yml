@@ -45,3 +45,14 @@ files:
                 sh "rubocop --format simple || true"
               end
               task default: [:rubocop, :spec]
+  readme:
+    filename: "README.me"
+    rel_path: "/"
+    content:  |
+              # Kata's URL
+
+
+              # Instructions
+
+
+              # Tests
