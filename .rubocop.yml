@@ -1,0 +1,4 @@
+AllCops:
+  Exclude:
+    - 'spec/resources/01-80skids/*'
+    - 'spec/resources/02-find-the-smallest/*'
