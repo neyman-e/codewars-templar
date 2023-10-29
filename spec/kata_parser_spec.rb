@@ -20,7 +20,7 @@ find_smallest_desc = File.open(File.absolute_path('spec/resources/02-find-the-sm
 find_smallest_code = File.open(File.absolute_path('spec/resources/02-find-the-smallest/code.rb')).read
 find_smallest_tests = File.open(File.absolute_path('spec/resources/02-find-the-smallest/tests.rb')).read
 
-invalid_urls = ['NOT_A_VALID_URL', 'https://www.google.com']
+# invalid_urls = ['NOT_A_VALID_URL', 'https://www.google.com']
 
 # Setup the parsers
 eightees_parser = KataParser.new(stitched_eightees_url)

@@ -18,23 +18,40 @@ class KataParser
 
   def extract_kata_information
 
+    doc = retrieve_kata_html
+
+    extract_basic_info(doc)
+
+    extract_code_info(doc)
+  end
+
+  private
+
+  def retrieve_kata_html
     # start selenium browser session
     @driver.get(@lang_specific_html)
 
     # wait to guarantee for JS to load
     sleep(5)
 
+    # get doc and quit driver
     html_content = @driver.page_source
     @driver.quit
 
-    doc = Nokogiri::HTML(html_content)
+    return Nokogiri::HTML(html_content)
+  end
 
-    @kata_title = doc.search('#shell_content h4.ml-2.mb-3').text
-    @kata_difficulty = doc.search('#shell_content .inner-small-hex').first.text[0].to_i
-    # TODO: Get full description and code content (move to a JS-executing URI-opener?)
-    @kata_description = doc.xpath('//*[@id="description"]').to_html
+  def extract_basic_info(html_doc)
+    # get title, difficulty and description
+    @kata_title = html_doc.search('#shell_content h4.ml-2.mb-3').text
+    @kata_difficulty = html_doc.search('#shell_content .inner-small-hex').first.text[0].to_i
+    @kata_description = html_doc.xpath('//*[@id="description"]').to_html
+  end
 
-    code_windows = doc.search('.CodeMirror-code')
+  def extract_code_info(html_doc)
+    # get tests and pre-written base-code for solution
+
+    code_windows = html_doc.search('.CodeMirror-code')
 
     @kata_code = ""
     code_windows[0].search('.CodeMirror-line').each do |line|
