@@ -25,6 +25,16 @@ class KataParser
     extract_code_info(doc)
   end
 
+  def summary
+    {
+      title: @kata_title,
+      desc: @kata_description,
+      diff: @kata_difficulty,
+      code: @kata_code,
+      tests: @kata_tests
+    }
+  end
+
   private
 
   def retrieve_kata_html
