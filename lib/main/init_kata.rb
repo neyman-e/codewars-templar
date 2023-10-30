@@ -46,7 +46,7 @@ end
 def sanitize_name(level_folder_path, parsed_name)
   input_name = parsed_name.downcase.split
   clean_name = input_name.each { |word| word.gsub!(/[^a-z0-9\-\_]/, '') }.join('-')
-  clean_name.length < max_name_length ? clean_name : abort_script("Terminating... Wrong input")
+  # clean_name.length < max_name_length ? clean_name : abort_script("Terminating... Wrong input")
 end
 
 
@@ -98,7 +98,7 @@ level = parser.kata_difficulty
 level_folder_path = "#{home_path}#{CONFIG['settings']['path']}/#{level}kyu/"
 kata_level_folder(level_folder_path)
 files_count = count_done_katas(level_folder_path)
-kata_name = sanitize_name(level_folder_path, parser.kata_name)
+kata_name = sanitize_name(level_folder_path, parser.kata_title)
 folder_path = create_folders(level_folder_path, files_count + 1, kata_name)
 create_files(folder_path)
 # vs_code_open = %x{code #{home_path}#{CONFIG['settings']['path']}}
