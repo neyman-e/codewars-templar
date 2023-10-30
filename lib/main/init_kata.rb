@@ -20,22 +20,6 @@ def abort_script(message)
   exit
 end
 
-# Returns the kata's level after asking the user for it
-#
-# 1st ask user's input to specify the kata's level
-# 2nd check if what we are getting is really an integer and in the correct range (1 to 8)
-#     If it is correct, return what the user gave as input
-#     If it isn't, give a message to the user and terminate the script
-def define_level
-  print "What is the level of the kata (1-8)? "
-  level = gets.chomp.to_i
-  if level.is_a?(Integer) && level > 0 && level < 9
-    level
-  else
-    abort_script("Terminating... Wrong input")
-  end
-end
-
 # Creates the kata level folder '*kyu' if it doesn't exist and print a message
 def kata_level_folder(level_folder_path)
   unless Dir.exist?(level_folder_path)
@@ -59,12 +43,8 @@ end
 # Gives a hint on the maximum possible characters after having calculated it
 # Cleans the kata name by downcasing and removing all special characters, except '-' and '_', keeping numbers
 # Checks if the input was valid and if it isn't, it terminates the script giving a message to the user
-def get_name(level_folder_path)
-  max_name_length = [255 - level_folder_path.length - 25, 100].min  # 255 is the maximum path length and 25 a safety measure
-  puts "How do you want to name the kata?"
-    puts "(Special characters except '-' and '_' will be removed and the maximum characters are #{max_name_length})"
-    print "Kata name: "
-  input_name = gets.chomp.downcase.split
+def sanitize_name(level_folder_path, parsed_name)
+  input_name = parsed_name.downcase.split
   clean_name = input_name.each { |word| word.gsub!(/[^a-z0-9\-\_]/, '') }.join('-')
   clean_name.length < max_name_length ? clean_name : abort_script("Terminating... Wrong input")
 end
@@ -104,18 +84,22 @@ def create_files(folder_path)
   end
 end
 
-level = define_level
+def ask_for_kata_url
+  puts 'What is the url of this kata (the "train" link)?'
+  gets.chomp
+end
+
+
+user_url = ask_for_kata_url
+parser = KataParser.new(user_url)
+parser.extract_kata_information
+
+level = parser.kata_difficulty
 level_folder_path = "#{home_path}#{CONFIG['settings']['path']}/#{level}kyu/"
 kata_level_folder(level_folder_path)
 files_count = count_done_katas(level_folder_path)
-kata_name = get_name(level_folder_path)
+kata_name = sanitize_name(level_folder_path, parser.kata_name)
 folder_path = create_folders(level_folder_path, files_count + 1, kata_name)
 create_files(folder_path)
 # vs_code_open = %x{code #{home_path}#{CONFIG['settings']['path']}}
 # puts "VS Code is now open" if vs_code_open
-
-example_1_ruby_html = File.absolute_path('spec/resources/01-80skids/ruby-train.html')
-test_parser = KataParser.new(example_1_ruby_html)
-test_parser.parse_kata
-p test_parser.kata_difficulty
-p test_parser.kata_title
