@@ -10,7 +10,6 @@ user = ENV['USER']
 # Configuration file for the specific user
 CONFIG = YAML.load_file("config/#{user}.yml")
 
-
 # Exits the script if the input is wrong, after giving a message to the user
 def abort_script(message)
   puts "Script ABORTED: #{message}"

@@ -1,0 +1,52 @@
+settings:
+  path: /code/klapperking/code-problems/codewars-katas
+
+files:
+  code:
+    filename: "solution.rb"
+    rel_path: "lib/"
+    content: |
+              # frozen_string_literal: true
+
+              def method_name()
+
+              end
+  tests:
+    filename: "solution_spec.rb"
+    rel_path: "spec/"
+    content: |
+              # frozen_string_literal: true
+
+              require 'rspec'
+              require_relative '../lib/solution'
+
+              describe('') do
+                describe('') do
+                  it ('should') do
+                    expect().to eq()
+                    expect().to eq()
+                  end
+                end
+              end
+  rakefile:
+    filename: "Rakefile"
+    rel_path: "/"
+    content:  |
+              # frozen_string_literal: true
+
+              require 'rspec/core/rake_task'
+              RSpec::Core::RakeTask.new(:spec)
+
+              desc('Checking for style offenses')
+              task(:rubocop) do
+                sh 'rubocop --format simple || true'
+              end
+
+              task default: %i[rubocop spec]
+  readme:
+    filename: "README.me"
+    rel_path: "/"
+    content:  |
+              # Kata Overview
+
+                ---
