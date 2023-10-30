@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 require 'yaml'
+require_relative '../modules/dependency_checker'
+
+# check if required (apt) packages are installed
+return unless DependencyChecker.dependencies_installed?
 
 # The computer's home path
 home_path = Dir.home
