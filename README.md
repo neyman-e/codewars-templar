@@ -4,8 +4,9 @@ We're the Code Wars Knight Templars. We're gonna fight the code wars as the best
 
 [Just if you don't know what a Knight Templar is](https://en.wikipedia.org/wiki/Knights_Templar)
 
+---
 
-Installation instructions:
+## Installation instructions:
 
 To retrieve all required information from the kata-URL, selenium-webdriver is needed, which in turn needs chromedriver.
 
