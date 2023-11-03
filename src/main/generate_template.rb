@@ -1,30 +1,47 @@
 # frozen_string_literal: true
 
+require '../modules/parser/code_problem_parser_factory'
+require '../modules/file_generator/file_generator_factory'
+
 def main
 
-  # TODO: Sanitize input when used in shell command-execution
+  # TODO: Sanitize input when used in shell command-execution and handle errors
+  # TODO: After catching an error at a given position, continue execution at a reasonable point
   while true
-    puts 'What is the url of this kata (the "train" link)?'
-    problem_url = gets.chomp
 
-    puts 'Which language would you like to train in?'
-    problem_url = gets.chomp
-
-    # scrape kata details from the url
     begin
-      parser = CodeProblemParserFactory.create_parser(problem_url)
-      parser.scrape_page
-      problem_information = parser.get_problem_details
+      puts 'What is the url of the code-problem?'
+      problem_url = gets.chomp
+      problem_platform = PlatformFinder.determine_platform(problem_url)
     rescue
-      "An error occured #{e.message}"
+      puts "An error occured #{e.message}"
+    end
+
+    # TODO: Is language supported?
+    # TODO: Is platform-language combination supported?
+    begin
+      puts 'Which language would you like to train in?'
+      problem_lang = gets.chomp
+    rescue
+      puts "An error occured #{e.message}"
+    end
+
+    # TODO: Does Platform-Language Combination exist for this problem?
+    # scrape code-problem details from the url for given language
+    begin
+      parser = CodeProblemParserFactory.create_parser(problem_platform)
+      parser.parse_page(problem_url, problem_lang)
+      problem_information = parser.problem_details
+    rescue
+      puts "An error occured #{e.message}"
     end
 
     # generate the templates for kata and user language
     begin
-      file_generator = FileGeneratorFactory.create_generator(problem_url)
+      file_generator = FileGeneratorFactory.create_generator(problem_lang)
       file_generator.generate_template_files(problem_information)
     rescue
-      "An error occured #{e.message}"
+      puts "An error occured #{e.message}"
     end
   end
 end
