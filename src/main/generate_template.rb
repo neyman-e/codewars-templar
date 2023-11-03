@@ -13,6 +13,8 @@ def main
     # scrape kata details from the url
     begin
       parser = CodeProblemParserFactory.create_parser(problem_url)
+      parser.scrape_page
+      problem_information = parser.get_problem_details
     rescue
       "An error occured #{e.message}"
     end
@@ -20,6 +22,7 @@ def main
     # generate the templates for kata and user language
     begin
       file_generator = FileGeneratorFactory.create_generator(problem_url)
+      file_generator.generate_template_files(problem_information)
     rescue
       "An error occured #{e.message}"
     end
