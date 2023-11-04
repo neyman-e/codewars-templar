@@ -10,16 +10,19 @@ class CodewarsProblemParser
   def initialize
     options = Selenium::WebDriver::Chrome::Options.new(args: ['headless'])
     @driver = Selenium::WebDriver.for :chrome, options: options
-    @html = String.new
+    @html = String.new # TODO: No consistent type with Nokogiri::HTML; check for nokogiri type that supports empty check
   end
 
   def parse_page(problem_url, problem_lang)
+    # GET url and parse using Nokogiri
+
     doc = retrieve_problem_html(problem_url, problem_lang)
 
     @html = Nokogiri::HTML(doc)
   end
 
   def problem_details
+    # returns a hash of code problem details
 
     raise HTMLIsEmptyError, 'No html file exists, did you retrieve data from url first?' if @html.empty?
 
