@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+# TODO: All tests are broken. Need a complete rewrite
+
 require 'rspec'
-require_relative '../lib/modules/kata_parser'
 
 ### Testing Setup
 # get test results
