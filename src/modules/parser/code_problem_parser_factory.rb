@@ -6,7 +6,7 @@ class CodeProblemParserFactory
   def self.create_parser(problem_platform)
     case problem_platform
     when 'codewars'
-      CodewarsProblemParser.new
+      CodewarsCodeProblemParser.new
     else
       raise NotImplementedError, "No Parser for this platform '#{problem_platform}' exists yet"
     end

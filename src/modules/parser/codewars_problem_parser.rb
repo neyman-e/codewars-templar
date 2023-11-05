@@ -3,10 +3,11 @@
 require 'selenium-webdriver'
 require 'nokogiri'
 
+require_relative 'icode_problem_parser'
 require_relative 'html_is_empty_error'
 
 # Parser for Codewars Problems (aka Katas)
-class CodewarsProblemParser
+class CodewarsCodeProblemParser < ICodeProblemParser
   def initialize
     options = Selenium::WebDriver::Chrome::Options.new(args: ['headless'])
     @driver = Selenium::WebDriver.for :chrome, options: options
