@@ -62,7 +62,7 @@ class CodewarsProblemParser
 
     content = StringIO.new
 
-    case windows_type
+    case window_type
     when 'method'
       code_window[0].search('-CodeMirror-line').each { |line| content.push(line.text) }
     when 'test'
