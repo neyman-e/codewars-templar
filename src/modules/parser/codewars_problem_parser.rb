@@ -24,6 +24,7 @@ class CodewarsProblemParser
   def problem_details
     # returns a hash of code problem details
 
+    # TODO: Remove after Selenium errors for 404 errors is implemented
     raise HTMLIsEmptyError, 'No html file exists, did you retrieve data from url first?' if @html.empty?
 
     problem_details = Hash.new

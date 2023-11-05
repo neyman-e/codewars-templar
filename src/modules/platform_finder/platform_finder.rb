@@ -8,7 +8,7 @@ class PlatformFinder
     if platform_url.include?('codewars')
       'codewars'
     else
-      raise UnrecognizedPlatformError, "Could not recognize a platform in #{platform_url}"
+      raise UnrecognizedPlatformError, "Could not recognize a platform in '#{platform_url}'"
     end
   end
 end
