@@ -10,6 +10,7 @@ require_relative '../modules/parser/code_problem_parser_factory'
 def main
 
   # TODO: Catching errors is there but they are not actually handled
+    # there could also be some mini-logging implementation
   # TODO: Sanitize input when used in shell command-execution and handle errors
   # TODO: After catching an error at a given position, continue execution at a reasonable point
   while true
