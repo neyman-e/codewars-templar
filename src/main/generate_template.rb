@@ -8,7 +8,7 @@ require_relative '../modules/platform_finder/unrecognized_platform_error'
 require_relative '../modules/parser/code_problem_parser_factory'
 require_relative '../modules/parser/html_is_empty_error'
 
-# require_relative '../modules/file_generator/file_generator_factory'
+require_relative '../modules/file_generator/file_generator_factory'
 
 def main
 
@@ -27,7 +27,7 @@ def main
       problem_url = gets.chomp
       problem_platform = PlatformFinder.determine_platform(problem_url)
     rescue UnrecognizedPlatformError => e
-      puts "An error occured: #{e.message}"
+      puts e.message
     end
 
     # TODO: Handle Exception if there user-input is invalid
@@ -44,26 +44,29 @@ def main
 
     # TODO: Does not do anything right now
     rescue StandardError => e
-      puts "An error occured: #{e.message}"
+      puts e.message
     end
 
     # TODO: Does Platform-Language Combination exist for this problem?
     # scrape code-problem details from the url for given language
     # TODO Catch and handle selenium errors (Invalid urls, non-existing language etc.)
+    # TODOD Rewrite into methods as to make exception catching more easy to read
     begin
       parser = CodeProblemParserFactory.create_parser(problem_platform)
       parser.parse_page(problem_url, problem_lang)
       problem_information = parser.problem_details
+    rescue NotImplementedError => e
+      puts e.message
     rescue HTMLIsEmptyError => e
-      puts "An error occured: #{e.message}"
+      puts e.message
     end
 
     # generate the templates for kata and user language
     begin
       file_generator = FileGeneratorFactory.create_generator(problem_lang)
       file_generator.generate_template_files(problem_information)
-    rescue StandardError => e
-      puts "An error occured: #{e.message}"
+    rescue NotImplementedError => e
+      puts e.message
     end
   end
 end
