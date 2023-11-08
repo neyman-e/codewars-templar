@@ -12,7 +12,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  selenium-webdriver (~> 4.14.0)
+  selenium-webdriver (~> 4.14.0.gem)
 
 BUNDLED WITH
    2.4.19
