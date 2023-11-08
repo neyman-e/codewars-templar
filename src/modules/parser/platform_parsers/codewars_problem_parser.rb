@@ -66,9 +66,9 @@ class CodewarsCodeProblemParser < ICodeProblemParser
 
     case window_type
     when 'method'
-      code_window[0].search('.CodeMirror-line').each { |line| content << line.text }
+      code_window[0].search('.CodeMirror-line').each { |line| content << "#{line.text}\n" }
     when 'test'
-      code_window[1].search('.CodeMirror-line').each { |line| content << line.text }
+      code_window[1].search('.CodeMirror-line').each { |line| content << "#{line.text}\n" }
     end
 
     content.string

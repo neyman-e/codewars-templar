@@ -44,7 +44,7 @@ Install needed dependencies (selenium-webdriver) using
 
 2. Enter the url to a code problem
 
-      e.g. `https://www.codewars.com/kata/566b490c8b164e03f8000002`
+      i.e. `https://www.codewars.com/kata/KATAUUID-ID`
 
 3. Choose the language you want to solve the problem in
 

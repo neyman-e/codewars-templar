@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'yaml'
+require 'psych'
 
 require_relative '../modules/platform_finder/platform_finder'
 require_relative '../modules/platform_finder/unrecognized_platform_error'
@@ -10,15 +10,19 @@ require_relative '../modules/parser/platform_parsers/html_is_empty_error'
 
 require_relative '../modules/root_dir_generator/root_dir_generator_factory'
 
+require_relative '../modules/file_generator/language_file_generator_factory'
+
 def main
   # Open user config to access stuff
-  user_config = YAML.load_file(File.absolute_path(File.dirname(__FILE__) + '/../../config/my_config.yml'))
+  user_config = Psych.safe_load_file(File.absolute_path(File.dirname(__FILE__) + '/../../config/my_config.yml'))
 
   # TODO: Maybe implement MVC as to not bloat this main? would prob need a router and "model" is not clear
   # TODO: Catching errors is there but they are not actually handled
     # there could also be some mini-logging implementation
   # TODO: Sanitize input when used in shell command-execution and handle errors (?)
   # TODO: After catching an error at a given position, continue execution at a reasonable point (Exception Handling)
+  # TODO: Check if the problem exists before creating it twice (ideally before scraping but thats not possible)
+
   loop do
 
     begin
@@ -66,7 +70,11 @@ def main
 
       file_generator = LanguageFileGeneratorFactory.create_generator(problem_lang)
       problem_dir_path = root_dir_generator.problem_dir
-      file_generator.generate_files(problem_information) # TODO: Go from here, dir path exists, files have to be created.
+      file_generator.generate_files(problem_information, problem_dir_path, user_config)
+
+      puts "Done"
+      break
+
     rescue NotImplementedError => e
       puts e.message
     end
