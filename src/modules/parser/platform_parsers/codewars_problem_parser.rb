@@ -26,14 +26,12 @@ class CodewarsCodeProblemParser < ICodeProblemParser
     # returns a hash of code problem details
 
     # TODO: Remove after Selenium errors for 404 errors is implemented
-    raise HTMLIsEmptyError, 'No html file exists, did you retrieve data from url first?' if @html.empty?
-
+    # raise HTMLIsEmptyError, 'No html file exists, did you retrieve data from url first?' if @html.empty? # empty does not work
     problem_details = Hash.new
 
     problem_details[:title] = @html.search('#shell_content h4.ml-2.mb-3').text
-    problem_details[:difficulty] = @html.search('#shell_content .inner-small-hex').first.text[0].to_i
+    problem_details[:difficulty] = @html.search('#shell_content .inner-small-hex').first.text[0].to_i # erroring?
     problem_details[:description] = @html.xpath('//*[@id="description"]').to_html
-
     problem_details[:code_window_content] = extract_code_window_content('method')
     problem_details[:test_window_content] = extract_code_window_content('test')
 
@@ -53,8 +51,10 @@ class CodewarsCodeProblemParser < ICodeProblemParser
     # wait to allow for JS execution
     sleep(5)
 
-    @driver.page_source
+    doc = @driver.page_source
     @driver.quit
+
+    doc
   end
 
   def extract_code_window_content(window_type)
@@ -66,9 +66,9 @@ class CodewarsCodeProblemParser < ICodeProblemParser
 
     case window_type
     when 'method'
-      code_window[0].search('-CodeMirror-line').each { |line| content.push(line.text) }
+      code_window[0].search('.CodeMirror-line').each { |line| content << line.text }
     when 'test'
-      code_window[1].search('-CodeMirror-line').each { |line| content.push(line.text) }
+      code_window[1].search('.CodeMirror-line').each { |line| content << line.text }
     end
 
     content.string
