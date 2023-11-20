@@ -3,6 +3,8 @@ GEM
   specs:
     nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
+    psych (5.1.1.1)
+      stringio
     racc (1.7.3)
     rexml (3.2.6)
     rubyzip (2.3.2)
@@ -10,6 +12,7 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    stringio (3.0.9)
     websocket (1.2.9)
 
 PLATFORMS
@@ -17,6 +20,7 @@ PLATFORMS
 
 DEPENDENCIES
   nokogiri (~> 1.15)
+  psych
   selenium-webdriver (~> 4.14.0.gem)
 
 BUNDLED WITH
