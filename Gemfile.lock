@@ -1,5 +1,9 @@
 GEM
+  remote: https://rubygems.org/
   specs:
+    nokogiri (1.15.4-x86_64-linux)
+      racc (~> 1.4)
+    racc (1.7.3)
     rexml (3.2.6)
     rubyzip (2.3.2)
     selenium-webdriver (4.14.0)
@@ -12,6 +16,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  nokogiri (~> 1.15)
   selenium-webdriver (~> 4.14.0.gem)
 
 BUNDLED WITH

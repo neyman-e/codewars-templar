@@ -1,17 +1,31 @@
 settings:
-  path: "/your/path/to/kata/directory"
+  root_path: /ABSOLUTE/PATH/TO/ALL/YOUR/CODE/PROBLEMS
+  codewars_path: EXAMPLE DIRECTORY NAME
 
-files:
-  code:
-    filename: "solution.rb"
-    rel_path: "lib/"
-  tests:
-    filename: "solution_spec.rb"
-    rel_path: "spec/"
-  rakefile:
-    filename: "Rakefile"
-    rel_path: "/"
-    content:  |
+ruby:
+- name: ruby
+  type: directory
+  contents:
+  - name: src
+    type: directory
+    contents:
+      - name: solution.rb
+        type: file
+        content_source: code_content
+        contents: |
+          THIS IS SCRAPED BY DEFAULT
+  - name: spec
+    type: directory
+    contents:
+      - name: solution_spec.rb
+        type: file
+        content_source: test_content
+        contents: |
+          THIS IS SCRAPED BY DEFAULT
+  - name: Rakefile
+    type: file
+    content_source: user
+    contents: |
               # frozen_string_literal: true
 
               require 'rspec/core/rake_task'
@@ -23,6 +37,8 @@ files:
               end
 
               task default: %i[rubocop spec]
-  desc:
-    filename: "README.me"
-    rel_path: "/"
+- name: README.md
+  type: file
+  content_source: readme
+  contents: |
+    THIS IS SCRAPED BY DEFAULT
